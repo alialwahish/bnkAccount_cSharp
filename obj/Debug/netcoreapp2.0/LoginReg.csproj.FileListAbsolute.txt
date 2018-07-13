@@ -1,0 +1,11 @@
+/home/ali/codingDojo/c#/LoginReg/bin/Debug/netcoreapp2.0/LoginReg.deps.json
+/home/ali/codingDojo/c#/LoginReg/bin/Debug/netcoreapp2.0/LoginReg.runtimeconfig.json
+/home/ali/codingDojo/c#/LoginReg/bin/Debug/netcoreapp2.0/LoginReg.runtimeconfig.dev.json
+/home/ali/codingDojo/c#/LoginReg/bin/Debug/netcoreapp2.0/LoginReg.dll
+/home/ali/codingDojo/c#/LoginReg/bin/Debug/netcoreapp2.0/LoginReg.pdb
+/home/ali/codingDojo/c#/LoginReg/obj/Debug/netcoreapp2.0/LoginReg.csprojResolveAssemblyReference.cache
+/home/ali/codingDojo/c#/LoginReg/obj/Debug/netcoreapp2.0/LoginReg.csproj.CoreCompileInputs.cache
+/home/ali/codingDojo/c#/LoginReg/obj/Debug/netcoreapp2.0/LoginReg.AssemblyInfoInputs.cache
+/home/ali/codingDojo/c#/LoginReg/obj/Debug/netcoreapp2.0/LoginReg.AssemblyInfo.cs
+/home/ali/codingDojo/c#/LoginReg/obj/Debug/netcoreapp2.0/LoginReg.dll
+/home/ali/codingDojo/c#/LoginReg/obj/Debug/netcoreapp2.0/LoginReg.pdb

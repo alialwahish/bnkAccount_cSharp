@@ -1,0 +1,29 @@
+@using LoginReg.Models
+@model User
+
+
+
+<h1>Welcome, @ViewBag.logedUser.First_Name @ViewBag.logedUser.Last_Name</h1>
+<p>Current Balance: $@ViewBag.logedUser.Bank.Ballance </p>
+
+
+<h2>@ViewBag.err</h2>
+<form action="Deposit" method="POST">
+
+<span>Deposit</span> <input name="Deposit" value="0"> 
+<input name="" type="Date" >
+<input type="submit" value="Deposit">
+
+</form>
+
+<form action="Withdraw" method="POST">
+
+<span>Withdraw</span> <input name="Withdraw" value="0">
+<input type="submit" value="Withdraw">
+
+</form>
+
+<span>Transaction Date: </span><input type="date" name="Transaction date">
+
+
+<a href="/">Signout</a>
