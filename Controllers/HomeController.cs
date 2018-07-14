@@ -38,52 +38,104 @@ namespace LoginReg.Controllers
 
 
         [HttpPost("Home/Withdraw")]
-        public IActionResult Withdraw(int Withdraw,DateTime tDate)
+        public IActionResult Add(int Withdraw, DateTime Date)
         {
-            
+
             string Email = HttpContext.Session.GetString("Email");
-            Console.WriteLine(">>>>>>>>>>>>>>>>>Date from details " + tDate);
 
             User logUser = _context.users.SingleOrDefault(user => user.Email == Email);
-            
-            
 
-            List<User> Users = _context.users.Include(usr => usr.Bank).ToList();
-            
+            List<User> Users = _context.users.Include(usr => usr.Bank).Include(usr => usr.Transactions).ToList();
 
-            
-            
-
-
-            if (logUser.Bank.Ballance - Withdraw < 0)
-            {
-               
-                ViewBag.err="Not Enough Money in your account to withdraw! Amount requested "+Withdraw;
-                ViewBag.logedUser = logUser;
-                return View("Details");
-
-            }
+            Transaction trn = new Transaction();
+            trn.Created_At = Date;
+            trn.Type = "Withdraw";
+            trn.UserId = logUser.UserId;
+            trn.Amount = Withdraw;
 
 
-            logUser.Bank.Ballance = logUser.Bank.Ballance - Withdraw;
-            
+            logUser.Bank.Ballance -= Withdraw;
+
+            logUser.Transactions.Add(trn);
+            logUser.Transactions = logUser.Transactions.OrderByDescending(t => t.Created_At).ToList();
             _context.SaveChanges();
+
+
+            return RedirectToAction("WithdrawView");
+        }
+
+
+
+        public IActionResult WithdrawView()
+        {
+
+            string Email = HttpContext.Session.GetString("Email");
+
+            User logUser = _context.users.SingleOrDefault(user => user.Email == Email);
+
+
+
+            List<User> Users = _context.users.Include(usr => usr.Bank).Include(usr => usr.Transactions).ToList();
+
+
+            logUser.Transactions = logUser.Transactions.OrderByDescending(t => t.Created_At).ToList();
+
+
+
+
             ViewBag.logedUser = logUser;
+            _context.SaveChanges();
             return View("Details");
         }
 
 
+
+
+
+
+
         [HttpPost("Home/Deposit")]
-        public IActionResult Deposit(int Deposit)
+        public IActionResult Deposit(int Deposit, DateTime Date)
         {
+
             string Email = HttpContext.Session.GetString("Email");
-            Console.WriteLine(">>>>>>>>>>>>>>>>>Email in session " + Email);
+
 
             User logUser = _context.users.SingleOrDefault(user => user.Email == Email);
 
-            List<User> Users = _context.users.Include(usr => usr.Bank).ToList();
+            List<User> Users = _context.users.Include(usr => usr.Bank).Include(usr => usr.Transactions).ToList();
+
+
+            Transaction trn = new Transaction();
+            trn.Created_At = Date;
+            trn.Type = "Deposit";
+            trn.UserId = logUser.UserId;
+
+            trn.Amount = Deposit;
 
             logUser.Bank.Ballance = logUser.Bank.Ballance + Deposit;
+            logUser.Transactions.Add(trn);
+
+            _context.SaveChanges();
+            ViewBag.logedUser = logUser;
+
+            return RedirectToAction("DepositView");
+        }
+
+
+
+        public IActionResult DepositView()
+        {
+            string Email = HttpContext.Session.GetString("Email");
+
+
+            User logUser = _context.users.SingleOrDefault(user => user.Email == Email);
+
+
+
+
+            List<User> Users = _context.users.Include(usr => usr.Bank).Include(usr => usr.Transactions).ToList();
+            logUser.Transactions = logUser.Transactions.OrderByDescending(t => t.Created_At).ToList();
             _context.SaveChanges();
             ViewBag.logedUser = logUser;
             return View("Details");
@@ -106,19 +158,24 @@ namespace LoginReg.Controllers
         {
 
             List<User> Users = _context.users.Include(usr => usr.Bank).ToList();
-            // if (ModelState.IsValid)
-            // {
+            user.Transactions = user.Transactions.OrderByDescending(t => t.Created_At).ToList();
             Console.WriteLine("Valid Registery");
             PasswordHasher<User> Hasher = new PasswordHasher<User>();
             user.Password = Hasher.HashPassword(user, user.Password);
             user.Confirm_Password = Hasher.HashPassword(user, user.Confirm_Password);
+
+            Transaction trn = new Transaction();
+
+
+
             BankAccount bofa = new BankAccount();
             bofa.Ballance = 500;
 
             bofa.Name = "Bank Of America";
 
             user.Bank = bofa;
-            user.BankId = 2;
+            user.BankId = bofa.BankId;
+
 
             _context.Add(user);
             _context.SaveChanges();
@@ -127,30 +184,23 @@ namespace LoginReg.Controllers
 
             return View("Details");
         }
-        //     else
-        //     {
-        //         Console.WriteLine("Invalid Register");
-        //         return View("Index");
-
-        //     }
-
-        // }
-
-
-
-
-
 
 
         [HttpPost("Home/login")]
-        public IActionResult LogingMethod(string Email, string password)
+        public IActionResult LogingMethod(string Email, string Password)
         {
-            List<User> Users = _context.users.Include(usr => usr.Bank).ToList();
+  
+       
 
-            User logUser = _context.users.SingleOrDefault(user => user.Email == Email);
+
+            List<User> Users = _context.users.Include(usr => usr.Bank).Include(usr => usr.Transactions).ToList();
+
+            User logUser = _context.users.SingleOrDefault(usr => usr.Email == Email );
+
 
             if (logUser != null)
             {
+                logUser.Transactions = logUser.Transactions.OrderByDescending(t => t.Created_At).ToList();
                 Console.WriteLine(logUser.Email);
                 Console.WriteLine(logUser.Password);
                 ViewBag.logedUser = logUser;

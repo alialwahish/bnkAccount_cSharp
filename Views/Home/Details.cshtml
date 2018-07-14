@@ -3,6 +3,7 @@
 
 
 
+
 <h1>Welcome, @ViewBag.logedUser.First_Name @ViewBag.logedUser.Last_Name</h1>
 <p>Current Balance: $@ViewBag.logedUser.Bank.Ballance </p>
 
@@ -10,20 +11,36 @@
 <h2>@ViewBag.err</h2>
 <form action="Deposit" method="POST">
 
-<span>Deposit</span> <input name="Deposit" value="0"> 
-<input name="" type="Date" >
+<span>Deposit</span> <input name="Deposit" > 
 <input type="submit" value="Deposit">
+<span>Transaction Date: </span><input type="date" name="Date"><br>
 
 </form>
+<br><br>
+
 
 <form action="Withdraw" method="POST">
 
-<span>Withdraw</span> <input name="Withdraw" value="0">
+<span>Withdraw</span> <input name="Withdraw" >
 <input type="submit" value="Withdraw">
 
+<span>Transaction Date: </span><input type="date" name="Date"><br>
 </form>
 
-<span>Transaction Date: </span><input type="date" name="Transaction date">
 
 
 <a href="/">Signout</a>
+
+<h2>Account Activites</h2>
+
+@foreach( var t in @ViewBag.logedUser.Transactions){
+    @if(@t.Type == "Withdraw"){
+
+       <p><span style="color:red">@t.Type</span> @t.Amount   Date: @t.Created_At.Date.ToString("MMM dd,yyyy")</p>
+    }
+    else{
+         <p><span style="color:green">@t.Type</span> @t.Amount   Date: @t.Created_At.Date.ToString("MMM dd,yyyy")</p>
+    }
+
+}
+

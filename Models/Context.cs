@@ -6,7 +6,6 @@
             public MyContext(DbContextOptions<MyContext> options) :base(options){ }
 
             public DbSet<User> users {get;set;}
-            
         }
 
     }

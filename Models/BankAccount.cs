@@ -16,17 +16,7 @@ namespace LoginReg
         [Required]
         public int Ballance { get; set; }
 
-        [Required]
-        public int TransactionId { get; set; }
-
-        [Required]
-        public List<Transaction> Transactions { get; set; }
-
-        public BankAccount()
-        {
-            Transactions = new List<Transaction>();
-        }
-
+       
 
     }
 

@@ -12,7 +12,7 @@ namespace LoginReg
 
         [Key]
         [Required]
-        public long UserId { get; set; }
+        public int UserId { get; set; }
 
 
         [Required(ErrorMessage = "Field Required")]
@@ -30,6 +30,7 @@ namespace LoginReg
 
         [Required(ErrorMessage = "Field Required")]
         [EmailAddress]
+        
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Field Required")]
@@ -40,14 +41,23 @@ namespace LoginReg
         public string Confirm_Password { get; set; }
 
 
+
+
+
+
         [Required]
         public int BankId { get; set; }
 
         [Required]
         public BankAccount Bank { get; set; }
 
+       
+        [Required]
+        public List<Transaction> Transactions { get; set; }
+
         public User()
         {
+            Transactions = new List<Transaction>();
             Bank = new BankAccount();
         }
 
